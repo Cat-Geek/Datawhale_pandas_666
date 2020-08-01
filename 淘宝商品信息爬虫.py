@@ -20,12 +20,13 @@ def get_product():
     for div in divs:
         info = div.find_element_by_xpath('.//div[@class="row row-2 title"]/a').text    #商品的名称
         price = div.find_element_by_xpath('.//strong').text + '元'   #商品的价格
-        deal = div.find_element_by_xpath('.//div[@class="deal-cnt"]').text    # 商品的付款人数
-        name = div.find_element_by_xpath('.//div[@class="shop"]/a').text  # 商品的店铺名称
-        print(info,price,deal,name,sep='|')
+        deal = div.find_element_by_xpath('.//div[@class="deal-cnt"]').text       #商品的付款人数
+        name = div.find_element_by_xpath('.//div[@class="shop"]/a').text         #商品的店铺名称
+        address = div.find_element_by_xpath('.//div[@class="location"]').text    #商品发货地址
+        print(info,price,deal,name,address,sep='|')
         with open ('data.csv',mode='a',newline='') as filecsv:
             csvwriter = csv.writer(filecsv,delimiter=',')
-            csvwriter.writerow([info,price,deal,name])
+            csvwriter.writerow([info,price,deal,name,address])
 
 def main():
     print('正在爬取第1页数据')
@@ -41,7 +42,7 @@ def main():
         driver.implicitly_wait(10)  #隐式等待时间
         get_product()
         page_num += 1
-        time.sleep(1)
+        time.sleep(5)
 
 if __name__ == '__main__':
     keyword = input('请输入你要搜索的关键字：')
